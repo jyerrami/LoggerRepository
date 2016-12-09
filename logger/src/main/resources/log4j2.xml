@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" strict="true" name="UserTracing">
+	<Properties>
+		<Property name="userFileName">userLog</Property>
+		<Property name="UserLoggerName">userLogger</Property>
+	</Properties>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="[%d{ISO8601}]~[%X{ThreadID}]~[%X{UserID}]~[%p]~[%X{TraceID}]~[%m]%n" />
+		</Console>
+		<RollingFile name="userFile" fileName="${userFileName}.log" filePattern="${userFileName}%i.log" >
+			<PatternLayout>
+				<pattern>[%d{ISO8601}]~[%X{ThreadID}]~[%X{UserID}]~[%p]~[%X{TraceID}]~[%m]%n</pattern>
+			</PatternLayout>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10240KB" />
+			</Policies>
+			<DefaultRolloverStrategy max="5" />
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Logger name="${UserLoggerName}" additivity="false" level="all">
+	      	<AppenderRef ref="userFile" />
+	    </Logger>
+		<Root level="all">
+			<AppenderRef ref="Console"/>
+		</Root>
+	</Loggers>
+</Configuration>
